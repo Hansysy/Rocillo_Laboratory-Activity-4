@@ -2,24 +2,37 @@
 
 # JOIN QUERIES
 INNER JOIN
-Combines two tables and only shows rows where there is a match in both.
+Referrals query → shows only matches between referrers and referred users.
 
 LEFT JOIN
-Shows all rows from the left table and adds matching rows from the right table; if no match, the right side shows NULL.
+Users + profiles → shows all users, adds profile info if it exists.
 
 RIGHT JOIN
-Shows all rows from the right table and adds matching rows from the left table; if no match, the left side shows NULL.
+Users + roles → shows all roles, adds user info if it exists.
 
-FULL JOIN (FULL OUTER JOIN)
-Returns all rows from both tables, with NULL where no match exists (MySQL emulates this using LEFT JOIN UNION RIGHT JOIN).
+FULL JOIN
+Users + profiles (LEFT + RIGHT with UNION) → shows all users and profiles, even if they don’t match.
 
 CROSS JOIN
-Pairs every row from the first table with every row from the second table, making all possible combinations.
+Users × roles → shows every user with every role.
 
 SELF JOIN
-Joins a table to itself (using aliases) to show relationships within the same table.
+Referrals query → users table joined to itself to show who referred whom.
 
 LEFT JOIN with Subquery
-Shows all rows from the left table and attaches only the latest (or filtered) result from a subquery; if none exists, shows NULL.
+Users + latest login → shows all users, adds their most recent login if available.
 
 # END POINTS
+/api/reports/users-with-roles → retrieves users and their roles.
+
+/api/reports/users-with-profiles → retrieves all users and their profile info (or NULL where no profile info exists).
+
+/api/reports/roles-right-join → retrieves all roles, including user information if it exists; roles without users still appear.
+
+/api/reports/profiles-full-outer → retrieves all users and all profiles, even if they don’t match (emulated with LEFT JOIN + RIGHT JOIN).
+
+/api/reports/user-role-combos → retrieves all users and roles in every possible scenario (CROSS JOIN).
+
+/api/reports/referrals → retrieves details of the referrer and the referred user, showing who invited whom and when (SELF JOIN).
+
+/api/reports/latest-login → retrieves all users and their last login details or NULL if they haven’t logged in yet.
